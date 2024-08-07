@@ -1,8 +1,12 @@
-const mongoose = requrie('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
-    fullName: {
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
         type: String,
         required: true,
     },
@@ -25,6 +29,12 @@ userSchema.pre("save", function (next) {
 
     next();
 });
+
+userSchema.methods.comparePassword = function (password, hash) {
+    const isValidPassword = bcrypt.compareSync(password, hash);
+    console.log("isValidPassword", isValidPassword)
+    return isValidPassword;
+}
 
 const User = mongoose.model('User', userSchema);
 

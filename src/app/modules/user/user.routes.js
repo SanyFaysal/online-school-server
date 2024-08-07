@@ -1,31 +1,10 @@
-const mongoose = requrie('mongoose');
-const bcrypt = require("bcryptjs");
+const express = require('express');
+const { registerUser, loginUser, getAllUser } = require('./user.controller');
+const router = express.Router();
 
-const userSchema = mongoose.Schema({
-    fullName: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    }
-})
+router.post('/signup', registerUser)
+router.post('/login', loginUser)
+router.get('/', getAllUser)
 
 
-
-userSchema.pre("save", function (next) {
-    const password = this.password;
-    const hash = bcrypt.hashSync(password);
-    this.password = hash;
-
-    next();
-});
-
-const User = mongoose.model('User', userSchema);
-
-module.exports = User; 
+module.exports = router; 
