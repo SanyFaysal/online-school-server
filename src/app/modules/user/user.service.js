@@ -1,6 +1,6 @@
 const User = require("./user.model")
 
-exports.getUsersService = async () => {
+exports.getAllUsersService = async () => {
     const result = await User.find({}).select("-password")
     return result;
 }

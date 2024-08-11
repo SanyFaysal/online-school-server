@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
+const { USER, ADMIN, INSTRUCTOR, STUDENT } = require('../../variables/userRoles');
 
 const userSchema = mongoose.Schema({
     firstName: {
@@ -17,8 +18,20 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    role: {
+        type: String,
+        default: USER,
+        enum: {
+            values: [ADMIN, INSTRUCTOR, STUDENT, USER],
+            message: "{VALUE} can't be a role",
+        },
+    },
+},
+    {
+        timestamps: true,
     }
-})
+)
 
 
 
